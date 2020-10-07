@@ -24,12 +24,12 @@
 
 This AWS Solutions Construct deploys a Kinesis Stream and Lambda function with the appropriate resources/properties for interaction and security.
 
-Here is a minimal deployable pattern definition:
+Here is a minimal deployable pattern definition in Typescript:
 
 ``` javascript
-const { KinesisStreamsToLambda } = require('@aws-solutions-constructs/aws-kinesisstreams-lambda');
+const { KinesisStreamsToLambda } from '@aws-solutions-constructs/aws-kinesisstreams-lambda';
 
-new KinesisStreamsToLambda(stack, 'KinesisToLambdaPattern', {
+new KinesisStreamsToLambda(this, 'KinesisToLambdaPattern', {
     eventSourceProps: {
         startingPosition: lambda.StartingPosition.TRIM_HORIZON,
         batchSize: 1
@@ -80,11 +80,13 @@ Out of the box implementation of the Construct without any override will set the
 ### Amazon Kinesis Stream
 * Configure least privilege access IAM role for Kinesis Stream
 * Enable server-side encryption for Kinesis Stream using AWS Managed KMS Key
+* Deploy best practices CloudWatch Alarms for the Kinesis Stream
 
 ### AWS Lambda Function
 * Configure least privilege access IAM role for Lambda function
 * Enable reusing connections with Keep-Alive for NodeJs Lambda function
 * Enable X-Ray Tracing
+* Enable Failure-Handling features like enable bisect on function Error, set defaults for Maximum Record Age (24 hours) & Maximum Retry Attempts (500) and deploy SQS dead-letter queue as destination on failure
 
 ## Architecture
 ![Architecture Diagram](architecture.png)

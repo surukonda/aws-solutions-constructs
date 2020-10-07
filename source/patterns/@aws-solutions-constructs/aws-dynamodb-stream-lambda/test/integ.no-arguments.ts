@@ -26,6 +26,9 @@ const props: DynamoDBStreamToLambdaProps = {
         runtime: lambda.Runtime.NODEJS_12_X,
         handler: 'index.handler'
     },
+    dynamoEventSourceProps: {
+        retryAttempts: 5
+    }
 };
 
 new DynamoDBStreamToLambda(stack, 'test-dynamodb-stream-lambda', props);
